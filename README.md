@@ -56,6 +56,16 @@ Combat the tendency toward overengineering:
 
 **The test:** Would a senior engineer say this is overcomplicated? If yes, simplify.
 
+#### Errors: fail loudly
+
+Simplicity means *less* error handling, not *weaker* error handling. Skipping impossible cases is simplicity; hiding real failures is a bug:
+
+- No empty catch blocks, bare `except:`, or ignored error returns
+- Don't catch an error only to log and continue — handle it or let it propagate
+- Don't substitute a default, empty, or `null` value for a failure the caller needs to know about
+- When wrapping an error, keep the original as the cause
+- In shell snippets, make failures exit non-zero (`set -euo pipefail`, `curl -fsSL`)
+
 ### 3. Surgical Changes
 
 **Touch only what you must. Clean up only your own mess.**
@@ -116,13 +126,14 @@ This installs the guidelines as a Claude Code plugin, making the skill available
 
 New project:
 ```bash
-curl -o CLAUDE.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md
+curl -fsSL -o CLAUDE.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md
 ```
 
 Existing project (append):
 ```bash
-echo "" >> CLAUDE.md
-curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md >> CLAUDE.md
+curl -fsSL https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md > /tmp/karpathy-CLAUDE.md \
+  && printf '\n' >> CLAUDE.md \
+  && cat /tmp/karpathy-CLAUDE.md >> CLAUDE.md
 ```
 
 ## Using with Cursor
