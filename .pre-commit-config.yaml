@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: sync-guidelines
+        name: guidelines are in sync with shared source
+        entry: python3 scripts/sync_guidelines.py --check
+        language: system
+        pass_filenames: false
+        files: ^(shared/|scripts/sync_guidelines\.py|CLAUDE\.md|\.cursor/rules/karpathy-guidelines\.mdc|skills/karpathy-guidelines/SKILL\.md)

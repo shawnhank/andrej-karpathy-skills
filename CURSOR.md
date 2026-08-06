@@ -25,4 +25,12 @@ If you want the same content as a reusable skill under `~/.cursor/skills`, use [
 
 ## For contributors
 
-When you change the four principles, keep **[`CLAUDE.md`](CLAUDE.md)** and **[`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc)** in sync. If the published skill/plugin text should match, update **[`skills/karpathy-guidelines/SKILL.md`](skills/karpathy-guidelines/SKILL.md)** as well.
+The four principles live in a single source of truth, **[`shared/guidelines-body.md`](shared/guidelines-body.md)** (with a shared footer in [`shared/guidelines-footer.md`](shared/guidelines-footer.md)). Do **not** edit `CLAUDE.md`, `.cursor/rules/karpathy-guidelines.mdc`, or `skills/karpathy-guidelines/SKILL.md` by hand — they are generated.
+
+When you change the principles:
+
+1. Edit the shared source under `shared/`.
+2. Run `python scripts/sync_guidelines.py` to regenerate the derived files.
+3. Commit the shared source and the regenerated files together.
+
+`python scripts/sync_guidelines.py --check` verifies the derived files are up to date; it runs automatically via the [pre-commit hook](.pre-commit-config.yaml) (`pre-commit install`).
