@@ -56,6 +56,16 @@ LLM 经常默默选择一种解释然后执行。这个原则强制明确推理�
 
 **检验标准：** 资深工程师会觉得这过于复杂吗？如果是，简化。
 
+#### 错误处理：让失败显现
+
+简洁意味着*更少*的错误处理，而不是*更弱*的错误处理。跳过不可能发生的场景是简洁；隐藏真实的失败是 bug：
+
+- 不要写空的 catch 块、裸 `except:`，也不要忽略错误返回值
+- 不要只是记录日志然后继续执行 —— 要么处理它，要么让它向上传播
+- 不要用默认值、空值或 `null` 掩盖调用方需要知道的失败
+- 包装错误时，保留原始错误作为 cause
+- 在 shell 片段中，让失败以非零状态退出（`set -euo pipefail`、`curl -fsSL`）
+
 ### 3. 精准修改
 
 **只碰必须碰的。只清理自己造成的混乱。**
@@ -116,13 +126,14 @@ LLM 经常默默选择一种解释然后执行。这个原则强制明确推理�
 
 新项目：
 ```bash
-curl -o CLAUDE.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md
+curl -fsSL -o CLAUDE.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md
 ```
 
 已有项目（追加）：
 ```bash
-echo "" >> CLAUDE.md
-curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md >> CLAUDE.md
+curl -fsSL https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md > /tmp/karpathy-CLAUDE.md \
+  && printf '\n' >> CLAUDE.md \
+  && cat /tmp/karpathy-CLAUDE.md >> CLAUDE.md
 ```
 
 ## 在 Cursor 中使用

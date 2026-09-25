@@ -26,6 +26,16 @@ Before implementing:
 
 Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
 
+### Errors: fail loudly
+
+**Less error handling, not weaker error handling.** Skipping impossible cases is simplicity; hiding real failures is a bug.
+
+- No empty catch blocks, bare `except:`, or ignored error returns.
+- Don't catch an error only to log and continue - handle it or let it propagate.
+- Don't substitute a default, empty, or `null` value for a failure the caller needs to know about.
+- When wrapping an error, keep the original as the cause.
+- In shell snippets, make failures exit non-zero (`set -euo pipefail`, `curl -fsSL`).
+
 ## 3. Surgical Changes
 
 **Touch only what you must. Clean up only your own mess.**
